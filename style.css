@@ -84,11 +84,9 @@ input {
   font-family: monospace;
   opacity: 0;
   pointer-events: none;
-  animation: chapterInOut 4.5s ease forwards;
 }
 
 /* giriş → bekleme → çıkış */
-@keyframes chapterInOut {
   0% {
     opacity: 0;
     transform: translate(-50%, -55%) scale(0.9);
