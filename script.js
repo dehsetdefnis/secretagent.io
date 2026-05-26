@@ -21,12 +21,11 @@ async function typeLine(text, type = "system") {
   output.appendChild(div);
 
   let delayBase = 30;
-
   if (type === "system") delayBase = 12;
   if (type === "command") delayBase = 22;
   if (type === "story") delayBase = 34;
 
-  let finalText = type === "system" ? `${getTime()} ${text}` : text;
+  const finalText = type === "system" ? `${getTime()} ${text}` : text;
 
   for (let i = 0; i < finalText.length; i++) {
     div.innerText += finalText[i];
@@ -122,10 +121,10 @@ async function startStory() {
 
   await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("bölüm 1");
+  await showChapter("BÖLÜM 1");
 }
 
-// 🔥 FINAL CHAPTER (UZATILMIŞ + STABİL)
+// 🔥 FINAL CINEMATIC CHAPTER SYSTEM
 async function showChapter(text) {
 
   fadeScreen();
@@ -138,20 +137,26 @@ async function showChapter(text) {
 
   document.body.appendChild(div);
 
-  // görünür hale getir
-  div.style.opacity = "1";
+  // başlangıç: görünmez
+  div.style.opacity = "0";
+  div.style.transform = "translate(-50%, -50%) scale(0.9)";
+  div.style.transition = "opacity 2s ease, transform 2s ease";
   div.style.zIndex = "9999";
-  div.style.transform = "translate(-50%, -50%) scale(1)";
 
-  // ⬇️ UZATILDI (artık 3.5 saniye görünür kalır)
-  await new Promise(r => setTimeout(r, 3500));
+  // 🔥 FADE IN (yavaş giriş)
+  requestAnimationFrame(() => {
+    div.style.opacity = "1";
+    div.style.transform = "translate(-50%, -50%) scale(1)";
+  });
 
-  // fade out
-  div.style.transition = "all 1.5s ease";
+  // ⏱ ekranda kalma süresi (artırıldı)
+  await new Promise(r => setTimeout(r, 5000));
+
+  // 🔥 FADE OUT (yavaş çıkış)
   div.style.opacity = "0";
   div.style.transform = "translate(-50%, -45%) scale(1.1)";
 
-  await new Promise(r => setTimeout(r, 1600));
+  await new Promise(r => setTimeout(r, 2000));
 
   div.remove();
 }
