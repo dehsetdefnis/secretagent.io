@@ -7,10 +7,7 @@ let gameStarted = false;
 // saat sistemi
 function getTime() {
   const now = new Date();
-  const h = String(now.getHours()).padStart(2, "0");
-  const m = String(now.getMinutes()).padStart(2, "0");
-  const s = String(now.getSeconds()).padStart(2, "0");
-  return `[${h}:${m}:${s}]`;
+  return `[${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}:${String(now.getSeconds()).padStart(2,"0")}]`;
 }
 
 // yazı motoru
@@ -25,20 +22,13 @@ async function typeLine(text, type = "system") {
   if (type === "command") delayBase = 22;
   if (type === "story") delayBase = 34;
 
-  let finalText = text;
-
-  if (type === "system") {
-    finalText = `${getTime()} ${text}`;
-  }
+  let finalText = type === "system" ? `${getTime()} ${text}` : text;
 
   for (let i = 0; i < finalText.length; i++) {
     div.innerText += finalText[i];
 
     let delay = delayBase;
-
-    if ([".", ",", ":", "…"].includes(finalText[i])) {
-      delay += 70;
-    }
+    if ([".", ",", ":", "…"].includes(finalText[i])) delay += 70;
 
     await new Promise(r => setTimeout(r, delay));
   }
@@ -125,41 +115,36 @@ async function startStory() {
 
   await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("bölüm 1");
+  await showChapter("BÖLÜM 1");
 }
 
-// ✅ FIXED CHAPTER SYSTEM (ARTIK GARANTİ GÖRÜNÜR)
+// 🔥 FIXED CHAPTER (100% WORKING)
 async function showChapter(text) {
 
-  // ekranı karart
   fadeScreen();
 
-  await new Promise(r => setTimeout(r, 1600));
+  await new Promise(r => setTimeout(r, 1200));
 
   const div = document.createElement("div");
-  div.classList.add("chapter");
+  div.className = "chapter";
   div.innerText = text;
 
   document.body.appendChild(div);
 
-  // zorla görünür yap (CSS sorunlarını bypass eder)
-  div.style.opacity = "0";
-  div.style.transform = "translate(-50%, -50%) scale(0.9)";
-  div.style.transition = "all 1.2s ease";
+  // zorla görünür
+  div.style.opacity = "1";
+  div.style.zIndex = "9999";
+  div.style.transform = "translate(-50%, -50%) scale(1)";
 
-  setTimeout(() => {
-    div.style.opacity = "1";
-    div.style.transform = "translate(-50%, -50%) scale(1)";
-  }, 50);
-
-  // ekranda kalma süresi
+  // 2.5 saniye göster
   await new Promise(r => setTimeout(r, 2500));
 
   // fade out
+  div.style.transition = "all 1.5s ease";
   div.style.opacity = "0";
   div.style.transform = "translate(-50%, -45%) scale(1.1)";
 
-  await new Promise(r => setTimeout(r, 1500));
+  await new Promise(r => setTimeout(r, 1600));
 
   div.remove();
 }
