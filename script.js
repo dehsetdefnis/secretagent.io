@@ -7,11 +7,9 @@ let gameStarted = false;
 // saat sistemi
 function getTime() {
   const now = new Date();
-
   const h = String(now.getHours()).padStart(2, "0");
   const m = String(now.getMinutes()).padStart(2, "0");
   const s = String(now.getSeconds()).padStart(2, "0");
-
   return `[${h}:${m}:${s}]`;
 }
 
@@ -23,7 +21,6 @@ async function typeLine(text, type = "system") {
   output.appendChild(div);
 
   let delayBase = 30;
-
   if (type === "system") delayBase = 12;
   if (type === "command") delayBase = 22;
   if (type === "story") delayBase = 34;
@@ -39,12 +36,7 @@ async function typeLine(text, type = "system") {
 
     let delay = delayBase;
 
-    if (
-      finalText[i] === "." ||
-      finalText[i] === "," ||
-      finalText[i] === ":" ||
-      finalText[i] === "…"
-    ) {
+    if ([".", ",", ":", "…"].includes(finalText[i])) {
       delay += 70;
     }
 
@@ -65,7 +57,7 @@ function fadeScreen() {
   document.body.classList.add("fade-out");
 }
 
-// boot sequence
+// boot
 async function bootSequence() {
 
   const boot = [
@@ -113,7 +105,6 @@ input.addEventListener("keydown", async (e) => {
       await startStory();
 
     } else {
-
       await typeLine("[ denied ] erişim reddedildi", "system");
       input.value = "";
     }
@@ -137,10 +128,9 @@ async function startStory() {
   await showChapter("BÖLÜM 1");
 }
 
-// bölüm sahnesi
+// bölüm sahnesi (FIXED)
 async function showChapter(text) {
 
-  // ekranı karart
   fadeScreen();
 
   await new Promise(r => setTimeout(r, 1800));
@@ -151,8 +141,23 @@ async function showChapter(text) {
 
   document.body.appendChild(div);
 
-  // görünme süresi (CSS animasyonu kontrol ediyor)
-  await new Promise(r => setTimeout(r, 4500));
+  // FADE IN
+  div.style.opacity = "0";
+  div.style.transition = "all 1.5s ease";
+
+  setTimeout(() => {
+    div.style.opacity = "1";
+    div.style.transform = "translate(-50%, -50%) scale(1)";
+  }, 50);
+
+  // 2 saniye görünür
+  await new Promise(r => setTimeout(r, 2500));
+
+  // FADE OUT
+  div.style.opacity = "0";
+  div.style.transform = "translate(-50%, -45%) scale(1.1)";
+
+  await new Promise(r => setTimeout(r, 2000));
 
   div.remove();
 }
