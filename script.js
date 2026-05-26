@@ -130,36 +130,29 @@ async function startStory() {
   await typeLine("“uyanık kal, seni izliyorlar.”", "command");
   await typeLine("ajan gündüz derin bir nefes aldı", "story");
   await typeLine("bu mesajın kimden geldiğini bilmiyordu", "story");
-  await typeLine("ama birisi sisteme giriş yaptığını fark etmişti", "story");
+  await typeLine("ama birisi, sisteme giriş yaptığını fark etmişti", "story");
 
-  await new Promise(r => setTimeout(r, 3000));
+  await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("bölüm 1");
+  await showChapter("BÖLÜM 1");
 }
 
 // bölüm sahnesi
 async function showChapter(text) {
 
+  // ekranı karart
   fadeScreen();
 
   await new Promise(r => setTimeout(r, 1800));
 
   const div = document.createElement("div");
   div.classList.add("chapter");
+  div.innerText = text;
+
   document.body.appendChild(div);
 
-  for (let i = 0; i < text.length; i++) {
-    div.innerText += text[i];
-    await new Promise(r => setTimeout(r, 110));
-  }
-
-  await new Promise(r => setTimeout(r, 2000));
-
-  div.style.transition = "all 2s ease";
-  div.style.opacity = "0";
-  div.style.transform = "translate(-50%, -50%) scale(1.2)";
-
-  await new Promise(r => setTimeout(r, 2000));
+  // görünme süresi (CSS animasyonu kontrol ediyor)
+  await new Promise(r => setTimeout(r, 4500));
 
   div.remove();
 }
