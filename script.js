@@ -125,15 +125,16 @@ async function startStory() {
 
   await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("bölüm 1");
+  await showChapter("BÖLÜM 1");
 }
 
-// bölüm sahnesi (FIXED)
+// ✅ FIXED CHAPTER SYSTEM (ARTIK GARANTİ GÖRÜNÜR)
 async function showChapter(text) {
 
+  // ekranı karart
   fadeScreen();
 
-  await new Promise(r => setTimeout(r, 1800));
+  await new Promise(r => setTimeout(r, 1600));
 
   const div = document.createElement("div");
   div.classList.add("chapter");
@@ -141,23 +142,24 @@ async function showChapter(text) {
 
   document.body.appendChild(div);
 
-  // FADE IN
+  // zorla görünür yap (CSS sorunlarını bypass eder)
   div.style.opacity = "0";
-  div.style.transition = "all 1.5s ease";
+  div.style.transform = "translate(-50%, -50%) scale(0.9)";
+  div.style.transition = "all 1.2s ease";
 
   setTimeout(() => {
     div.style.opacity = "1";
     div.style.transform = "translate(-50%, -50%) scale(1)";
   }, 50);
 
-  // 2 saniye görünür
+  // ekranda kalma süresi
   await new Promise(r => setTimeout(r, 2500));
 
-  // FADE OUT
+  // fade out
   div.style.opacity = "0";
   div.style.transform = "translate(-50%, -45%) scale(1.1)";
 
-  await new Promise(r => setTimeout(r, 2000));
+  await new Promise(r => setTimeout(r, 1500));
 
   div.remove();
 }
