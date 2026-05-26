@@ -7,7 +7,10 @@ let gameStarted = false;
 // saat sistemi
 function getTime() {
   const now = new Date();
-  return `[${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}:${String(now.getSeconds()).padStart(2,"0")}]`;
+  const h = String(now.getHours()).padStart(2, "0");
+  const m = String(now.getMinutes()).padStart(2, "0");
+  const s = String(now.getSeconds()).padStart(2, "0");
+  return `[${h}:${m}:${s}]`;
 }
 
 // yazı motoru
@@ -18,6 +21,7 @@ async function typeLine(text, type = "system") {
   output.appendChild(div);
 
   let delayBase = 30;
+
   if (type === "system") delayBase = 12;
   if (type === "command") delayBase = 22;
   if (type === "story") delayBase = 34;
@@ -28,7 +32,10 @@ async function typeLine(text, type = "system") {
     div.innerText += finalText[i];
 
     let delay = delayBase;
-    if ([".", ",", ":", "…"].includes(finalText[i])) delay += 70;
+
+    if ([".", ",", ":", "…"].includes(finalText[i])) {
+      delay += 70;
+    }
 
     await new Promise(r => setTimeout(r, delay));
   }
@@ -47,7 +54,7 @@ function fadeScreen() {
   document.body.classList.add("fade-out");
 }
 
-// boot
+// boot sequence
 async function bootSequence() {
 
   const boot = [
@@ -118,7 +125,7 @@ async function startStory() {
   await showChapter("bölüm 1");
 }
 
-// 🔥 FIXED CHAPTER (100% WORKING)
+// 🔥 FINAL CHAPTER (UZATILMIŞ + STABİL)
 async function showChapter(text) {
 
   fadeScreen();
@@ -131,13 +138,13 @@ async function showChapter(text) {
 
   document.body.appendChild(div);
 
-  // zorla görünür
+  // görünür hale getir
   div.style.opacity = "1";
   div.style.zIndex = "9999";
   div.style.transform = "translate(-50%, -50%) scale(1)";
 
-  // 2.5 saniye göster
-  await new Promise(r => setTimeout(r, 2500));
+  // ⬇️ UZATILDI (artık 3.5 saniye görünür kalır)
+  await new Promise(r => setTimeout(r, 3500));
 
   // fade out
   div.style.transition = "all 1.5s ease";
