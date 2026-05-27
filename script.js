@@ -7,9 +7,11 @@ let gameStarted = false;
 // saat sistemi
 function getTime() {
   const now = new Date();
+
   const h = String(now.getHours()).padStart(2, "0");
   const m = String(now.getMinutes()).padStart(2, "0");
   const s = String(now.getSeconds()).padStart(2, "0");
+
   return `[${h}:${m}:${s}]`;
 }
 
@@ -17,21 +19,35 @@ function getTime() {
 async function typeLine(text, type = "system") {
 
   const div = document.createElement("div");
+
   div.classList.add(type);
+
   output.appendChild(div);
 
   let delayBase = 30;
+
   if (type === "system") delayBase = 12;
   if (type === "command") delayBase = 22;
   if (type === "story") delayBase = 34;
 
-  const finalText = type === "system" ? `${getTime()} ${text}` : text;
+  let finalText = text;
+
+  if (type === "system") {
+    finalText = `${getTime()} ${text}`;
+  }
 
   for (let i = 0; i < finalText.length; i++) {
+
     div.innerText += finalText[i];
 
     let delay = delayBase;
-    if ([".", ",", ":", "…"].includes(finalText[i])) {
+
+    if (
+      finalText[i] === "." ||
+      finalText[i] === "," ||
+      finalText[i] === ":" ||
+      finalText[i] === "…"
+    ) {
       delay += 70;
     }
 
@@ -39,6 +55,7 @@ async function typeLine(text, type = "system") {
   }
 
   div.innerText += "\n";
+
   window.scrollTo(0, document.body.scrollHeight);
 }
 
@@ -47,15 +64,11 @@ function clearScreen() {
   output.innerHTML = "";
 }
 
-// ekran karartma
-function fadeScreen() {
-  document.body.classList.add("fade-out");
-}
-
 // boot
 async function bootSequence() {
 
   const boot = [
+
     "[ ok ] sistem başlatılıyor...",
     "[ ok ] çekirdek modülleri yükleniyor...",
     "[ ok ] şifreleme protokolü aktif...",
@@ -63,6 +76,7 @@ async function bootSequence() {
     "[ encrypted ] command bağlantısı kuruluyor...",
     "[ warning ] kimlik doğrulaması gerekli",
     "[ input ] lütfen şifreyi giriniz"
+
   ];
 
   for (let line of boot) {
@@ -70,6 +84,7 @@ async function bootSequence() {
   }
 
   loginBox.style.display = "block";
+
   input.focus();
 }
 
@@ -89,18 +104,35 @@ input.addEventListener("keydown", async (e) => {
       gameStarted = true;
 
       input.value = "";
+
       loginBox.style.display = "none";
 
       clearScreen();
 
-      await typeLine("[ access granted ] erişim sağlandı...", "system");
-      await typeLine("[ identity confirmed ] ajan doğrulandı...", "system");
-      await typeLine("[ secure tunnel established ] şifreli kanal açılıyor...", "system");
+      await typeLine(
+        "[ access granted ] erişim sağlandı...",
+        "system"
+      );
+
+      await typeLine(
+        "[ identity confirmed ] ajan doğrulandı...",
+        "system"
+      );
+
+      await typeLine(
+        "[ secure tunnel established ] şifreli kanal açılıyor...",
+        "system"
+      );
 
       await startStory();
 
     } else {
-      await typeLine("[ denied ] erişim reddedildi", "system");
+
+      await typeLine(
+        "[ denied ] erişim reddedildi",
+        "system"
+      );
+
       input.value = "";
     }
   }
@@ -109,60 +141,116 @@ input.addEventListener("keydown", async (e) => {
 // hikaye
 async function startStory() {
 
-  await typeLine("yağmur neredeyse 3 saattir durmuyordu", "story");
-  await typeLine("şehrin ışıkları ıslak asfaltın üzerinde dans ediyordu", "story");
-  await typeLine("eski apartmanların arasındaki dar sokak ise gerektiğinden fazla sessizdi", "story");
-  await typeLine("terminal ekranında tek bir mesaj belirdi", "story");
-  await typeLine("“uyanık kal, seni izliyorlar.”", "command");
-  await typeLine("ajan gündüz derin bir nefes aldı", "story");
-  await typeLine("bu mesajın kimden geldiğini bilmiyordu", "story");
-  await typeLine("ama birisi, sisteme giriş yaptığını fark etmişti", "story");
+  await typeLine(
+    "yağmur neredeyse 3 saattir durmuyordu",
+    "story"
+  );
+
+  await typeLine(
+    "şehrin ışıkları ıslak asfaltın üzerinde dans ediyordu",
+    "story"
+  );
+
+  await typeLine(
+    "eski apartmanların arasındaki dar sokak ise gerektiğinden fazla sessizdi",
+    "story"
+  );
+
+  await typeLine(
+    "terminal ekranında tek bir mesaj belirdi",
+    "story"
+  );
+
+  await typeLine(
+    "“uyanık kal, seni izliyorlar.”",
+    "command"
+  );
+
+  await typeLine(
+    "ajan gündüz derin bir nefes aldı",
+    "story"
+  );
+
+  await typeLine(
+    "bu mesajın kimden geldiğini bilmiyordu",
+    "story"
+  );
+
+  await typeLine(
+    "ama birisi, sisteme giriş yaptığını fark etmişti",
+    "story"
+  );
 
   await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("bölüm 1");
+  await showChapter("BÖLÜM 1");
 }
 
-// 🔥 FINAL CHAPTER SYSTEM (100% VISIBLE FIX)
+// chapter sistemi
 async function showChapter(text) {
 
-  fadeScreen();
+  // overlay oluştur
+  const overlay = document.createElement("div");
 
-  await new Promise(r => setTimeout(r, 1200));
+  overlay.className = "screen-overlay";
 
+  document.body.appendChild(overlay);
+
+  // ekranı karart
+  requestAnimationFrame(() => {
+    overlay.style.opacity = "1";
+  });
+
+  await new Promise(r => setTimeout(r, 2200));
+
+  // chapter oluştur
   const div = document.createElement("div");
-  div.className = "chapter";
+
   div.innerText = text;
 
-  document.body.appendChild(div);
-
-  // 🔥 INLINE FORCE STYLE (CSS BUGLARINI SIFIRLAR)
   Object.assign(div.style, {
+
     position: "fixed",
     top: "50%",
     left: "50%",
+
     transform: "translate(-50%, -50%) scale(0.9)",
+
     fontSize: "48px",
     color: "#39ff14",
+    fontFamily: "monospace",
+
     textShadow: "0 0 15px rgba(57,255,20,0.8)",
-    zIndex: 999999,
+
+    zIndex: "9999",
+
     opacity: "0",
-    pointerEvents: "none",
-    transition: "opacity 2s ease, transform 2s ease"
+
+    transition: "all 2s ease",
+
+    pointerEvents: "none"
+
   });
 
-  // 🔥 FADE IN (kesin görünür yap)
+  document.body.appendChild(div);
+
+  // fade in
   requestAnimationFrame(() => {
+
     div.style.opacity = "1";
-    div.style.transform = "translate(-50%, -50%) scale(1)";
+
+    div.style.transform =
+      "translate(-50%, -50%) scale(1)";
   });
 
-  // ⏱ UZUN GÖSTERİM (ARTIK NET GÖRÜNÜR)
-  await new Promise(r => setTimeout(r, 6000));
+  // ekranda kalma süresi
+  await new Promise(r => setTimeout(r, 5000));
 
-  // 🔥 FADE OUT
+  // fade out
   div.style.opacity = "0";
-  div.style.transform = "translate(-50%, -45%) scale(1.1)";
+
+  div.style.transform =
+    "translate(-50%, -45%) scale(1.1)";
 
   await new Promise(r => setTimeout(r, 2000));
 
