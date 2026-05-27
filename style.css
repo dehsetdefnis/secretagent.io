@@ -58,35 +58,22 @@ input {
   text-shadow: 0 0 10px rgba(255, 242, 0, 0.7);
 }
 
-.fade-out {
-  animation: fadeBlack 2s forwards;
-}
-
-@keyframes fadeBlack {
-  from {
-    background-color: transparent;
-  }
-
-  to {
-    background-color: rgba(0, 0, 0, 0.85);
-  }
-}
-
-/* CHAPTER (FIXED) */
-.chapter {
+/* overlay */
+.screen-overlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
 
-  font-size: 48px;
-  color: #39ff14;
-  font-family: monospace;
+  width: 100%;
+  height: 100%;
 
-  text-shadow: 0 0 15px rgba(57, 255, 20, 0.8);
+  background: black;
+
+  opacity: 0;
 
   pointer-events: none;
 
-  opacity: 0;
-  z-index: 9999;
+  z-index: 9998;
+
+  transition: opacity 2s ease;
 }
