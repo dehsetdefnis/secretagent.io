@@ -58,14 +58,18 @@ input {
   text-shadow: 0 0 10px rgba(255, 242, 0, 0.7);
 }
 
-/* SCREEN FADE */
 .fade-out {
   animation: fadeBlack 2s forwards;
 }
 
 @keyframes fadeBlack {
-  from { filter: brightness(1); }
-  to { filter: brightness(0); }
+  from {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
 }
 
 /* CHAPTER (FIXED) */
