@@ -218,7 +218,7 @@ async function showChapter(text) {
 
     fontSize: "48px",
     color: "#39ff14",
-    fontFamily: "monospace",
+    fontFamily: "'Press Start 2P', monospace",
 
     textShadow: "0 0 15px rgba(57,255,20,0.8)",
 
