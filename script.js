@@ -183,7 +183,7 @@ async function startStory() {
 
   await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("bölüm 1");
+  await showChapter("Bölüm 1");
 }
 
 // chapter sistemi
@@ -218,7 +218,7 @@ async function showChapter(text) {
 
     fontSize: "48px",
     color: "#39ff14",
-    fontFamily: "'Press Start 2P', monospace",
+    fontFamily: "'Orbitron', sans-serif",
 
     textShadow: "0 0 15px rgba(57,255,20,0.8)",
 
