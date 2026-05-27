@@ -183,7 +183,7 @@ async function startStory() {
 
   await new Promise(r => setTimeout(r, 2500));
 
-  await showChapter("BÖLÜM 1");
+  await showChapter("bölüm 1");
 }
 
 // chapter sistemi
